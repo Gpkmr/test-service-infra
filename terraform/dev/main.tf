@@ -1,5 +1,9 @@
 terraform {
   required_version = ">=1.0"
+  backend "gcs" {
+    bucket = "autodidact-tf-state-dev"
+    prefix = "terraform/state"
+  }
   required_providers {
     google = "~> 4.0"
     kubernetes = {
@@ -15,7 +19,7 @@ provider "google" {
 }
 
 provider "google-beta" {
-  project     = var.project
+  project = var.project
 }
 
 module "network-data" {
