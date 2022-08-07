@@ -20,3 +20,5 @@ jobs:
         run: terraform init
       - name: tfm plan
         run: terraform plan -no-color
+      - name: tfm apply
+        run: terraform apply -input=false -no-color
