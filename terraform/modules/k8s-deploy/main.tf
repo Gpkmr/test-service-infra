@@ -71,3 +71,20 @@ resource "kubernetes_service" "app_service" {
     type = "LoadBalancer"
   }
 }
+
+resource "kubernetes_horizontal_pod_autoscaler_v1" "app_hpa" {
+  metadata {
+    name = var.hpa_name
+  }
+
+  spec {
+    max_replicas = 20
+    min_replicas = 3
+
+    scale_target_ref {
+      kind = "Deployment"
+      name = var.deploy_name
+    }
+  }
+  depends_on = [kubernetes_deployment.app_deploy]
+}

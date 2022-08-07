@@ -8,6 +8,11 @@ variable "svc_name" {
   default = "service-two-svc"
 }
 
+variable "hpa_name" {
+  type    = string
+  default = "service-two-hpa"
+}
+
 variable "image" {
   type    = string
   default = "us-east1-docker.pkg.dev/autodidact/registry-dev/srvtwo:latest"
