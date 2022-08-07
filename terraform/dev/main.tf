@@ -10,8 +10,12 @@ terraform {
 }
 
 provider "google" {
-  project = "autodidact"
-  region  = "us-central1"
+  project = var.project
+  region  = var.location
+}
+
+provider "google-beta" {
+  project     = var.project
 }
 
 module "network-data" {

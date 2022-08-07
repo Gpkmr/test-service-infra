@@ -12,3 +12,13 @@ variable "svc_port" {
   type    = number
   default = 80
 }
+
+variable "project" {
+  type    = string
+  default = "autodidact"
+}
+
+variable "location" {
+  type    = string
+  default = "us-central1"
+}
