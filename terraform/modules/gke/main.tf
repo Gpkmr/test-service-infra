@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
-  name                     = "tfm-dev-cluster"
-  location                 = "us-central1-a"
+  name                     = var.gke_cluster_name
+  location                 = var.gke_zone
   remove_default_node_pool = true
   initial_node_count       = 1
   network                  = var.vpc_id
@@ -27,19 +27,19 @@ resource "google_container_cluster" "primary" {
       enabled = true
     }
 
-    master_ipv4_cidr_block = "172.16.0.0/28"
+    master_ipv4_cidr_block = var.gke_master_cidr
   }
 }
 
 resource "google_container_node_pool" "tfm_nodes" {
-  name       = "tfm-dev-ool"
-  location   = "us-central1-a"
+  name       = var.gke_pool_name
+  location   = var.gke_zone
   cluster    = google_container_cluster.primary.name
-  node_count = 3
+  node_count = var.node_count
 
   node_config {
     preemptible  = true
-    machine_type = "e2-medium"
+    machine_type = var.node_machine_type
 
     oauth_scopes    = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
     service_account = "default"

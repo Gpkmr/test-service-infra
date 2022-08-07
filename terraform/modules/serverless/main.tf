@@ -1,13 +1,19 @@
 resource "google_cloud_run_service" "srvone" {
-  name     = "service-one-dev"
-  location = "us-central1"
+  name     = var.srvone_name
+  location = var.location
   template {
+    metadata {
+      annotations = {
+        "run.googleapis.com/vpc-access-connector" = var.vpc_conn_id
+        "run.googleapis.com/vpc-access-egress"    = "all-traffic"
+      }
+    }
     spec {
       containers {
-        image = "us-east1-docker.pkg.dev/autodidact/registry-dev/srvone:latest"
+        image = var.srvone_image
         env {
           name  = "SERVICE_TWO_URL"
-          value = "http://10.3.0.11:80/two"
+          value = var.srvtwo_url
         }
       }
     }
@@ -16,16 +22,9 @@ resource "google_cloud_run_service" "srvone" {
     percent         = 100
     latest_revision = true
   }
-  metadata {
-    annotations = {
-      "run.googleapis.com/vpc-access-connector" = var.vpc_conn_id
-      "run.googleapis.com/vpc-access-egress"    = "all-traffic"
-    }
-  }
-
   lifecycle {
     ignore_changes = [
-        metadata.0.annotations,
+      template.0.metadata.0.annotations,
     ]
   }
 }

@@ -7,5 +7,5 @@ output "subnet_id" {
 }
 
 output "vpc_conn_id" {
-    value = google_vpc_access_connector.connector.id
+  value = google_vpc_access_connector.connector.id
 }
