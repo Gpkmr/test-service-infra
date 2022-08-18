@@ -2,6 +2,11 @@ name: Terraform Deploy
 
 on: 
   workflow_dispatch:
+    inputs:
+      command:
+        description: Tfm Command
+        required: true
+        default: apply
     
 jobs:
   terraform:
@@ -20,5 +25,5 @@ jobs:
         run: terraform init
       - name: tfm plan
         run: terraform plan -no-color
-      - name: tfm apply
-        run: terraform apply -input=false -no-color
+      - name: tfm ${{ inputs.command }}
+        run: terraform ${{ inputs.command }} -input=false -no-color
