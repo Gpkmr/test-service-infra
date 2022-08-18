@@ -26,4 +26,4 @@ jobs:
       - name: tfm plan
         run: terraform plan -no-color
       - name: tfm ${{ inputs.command }}
-        run: terraform ${{ inputs.command }} -input=false -no-color
+        run: terraform ${{ inputs.command }} -input=false -auto-approve -no-color
